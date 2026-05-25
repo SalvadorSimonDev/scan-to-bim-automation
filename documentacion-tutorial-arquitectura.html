@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Documentación & Tutorial — Sistema Scan-to-BIM Industrial</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d2e;
+      --surface2: #242740;
+      --accent: #4f8ef7;
+      --accent2: #38c96e;
+      --warn: #f0a500;
+      --danger: #e05252;
+      --text: #e8eaf0;
+      --text-muted: #8b90a7;
+      --border: #2e3250;
+      --radius: 12px;
+      --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      --mono: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    /* ─── SIDEBAR ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0;
+      width: 260px; height: 100vh;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      overflow-y: auto;
+      padding: 28px 0;
+      z-index: 100;
+    }
+
+    nav .logo {
+      padding: 0 20px 24px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 16px;
+    }
+    nav .logo span {
+      display: block;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+    nav .logo strong {
+      font-size: 14px;
+      color: var(--accent);
+    }
+
+    nav a {
+      display: block;
+      padding: 7px 20px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13px;
+      border-left: 3px solid transparent;
+      transition: all 0.15s;
+    }
+    nav a:hover { color: var(--text); background: var(--surface2); }
+    nav a.active { color: var(--accent); border-left-color: var(--accent); background: rgba(79,142,247,0.08); }
+    nav .nav-section {
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 16px 20px 4px;
+      font-weight: 600;
+    }
+
+    /* ─── MAIN ─── */
+    main {
+      margin-left: 260px;
+      padding: 48px 56px;
+      max-width: 1100px;
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-bottom: 40px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    h2 {
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--text);
+      margin: 56px 0 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    h2::before {
+      content: attr(data-num) ' ';
+      color: var(--accent);
+      font-size: 14px;
+      font-weight: 400;
+    }
+    h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 28px 0 12px;
+    }
+
+    p { margin-bottom: 14px; color: var(--text); }
+
+    /* ─── TABLES ─── */
+    .table-wrap { overflow-x: auto; margin: 16px 0 24px; border-radius: var(--radius); border: 1px solid var(--border); }
+    table { width: 100%; border-collapse: collapse; }
+    th {
+      background: var(--surface2);
+      color: var(--accent);
+      font-size: 12px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 10px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    td {
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--border);
+      font-size: 13.5px;
+      vertical-align: top;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(255,255,255,0.025); }
+    td code { background: var(--surface2); padding: 2px 6px; border-radius: 4px; font-family: var(--mono); font-size: 12px; color: var(--accent2); }
+
+    /* ─── CODE ─── */
+    pre {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      overflow-x: auto;
+      margin: 16px 0 24px;
+      font-family: var(--mono);
+      font-size: 13px;
+      line-height: 1.6;
+      color: #c9d1d9;
+    }
+    code {
+      font-family: var(--mono);
+      font-size: 13px;
+      background: var(--surface2);
+      padding: 2px 7px;
+      border-radius: 4px;
+      color: var(--accent2);
+    }
+    pre code { background: none; padding: 0; color: inherit; }
+
+    /* ─── BADGES / TAGS ─── */
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+    .badge-ok    { background: rgba(56,201,110,0.15); color: var(--accent2); }
+    .badge-warn  { background: rgba(240,165,0,0.15);  color: var(--warn); }
+    .badge-info  { background: rgba(79,142,247,0.15); color: var(--accent); }
+    .badge-pend  { background: rgba(139,144,167,0.15);color: var(--text-muted); }
+
+    /* ─── CARDS ─── */
+    .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin: 20px 0; }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      transition: border-color 0.2s;
+    }
+    .card:hover { border-color: var(--accent); }
+    .card .card-title { font-weight: 600; font-size: 15px; margin-bottom: 6px; color: var(--text); }
+    .card .card-sub   { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; }
+    .card p { font-size: 13.5px; color: var(--text-muted); margin: 0; }
+    .card .card-tag { font-size: 11px; color: var(--accent); background: rgba(79,142,247,0.1); padding: 2px 8px; border-radius: 20px; display: inline-block; margin-bottom: 10px; }
+
+    /* ─── PHASE BANNER ─── */
+    .phase-banner {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      margin: 20px 0;
+    }
+    .phase-num {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--accent);
+      opacity: 0.5;
+      min-width: 40px;
+    }
+    .phase-title { font-size: 17px; font-weight: 600; }
+    .phase-desc  { font-size: 13px; color: var(--text-muted); }
+
+    /* ─── DIAGRAMS ─── */
+    .diagram-wrap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin: 20px 0;
+      overflow-x: auto;
+      text-align: center;
+    }
+    .diagram-label {
+      font-size: 11px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    /* ─── TOLERANCE TABLE ─── */
+    .tol-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 16px 0; }
+    .tol-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px;
+      text-align: center;
+    }
+    .tol-item .tol-cat  { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
+    .tol-item .tol-val  { font-size: 22px; font-weight: 700; color: var(--accent2); }
+    .tol-item .tol-unit { font-size: 11px; color: var(--text-muted); }
+
+    /* ─── SCRIPT STATUS ─── */
+    .script-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+    .script-row:last-child { border-bottom: none; }
+    .script-file { font-family: var(--mono); font-size: 13px; color: var(--accent2); flex: 1; }
+    .script-phase { font-size: 11px; color: var(--text-muted); min-width: 60px; }
+    .script-desc  { font-size: 13px; color: var(--text-muted); flex: 2; }
+
+    /* ─── PRODUCTION NOTE ─── */
+    .info-box {
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      margin: 16px 0;
+      border-left: 4px solid;
+      font-size: 14px;
+    }
+    .info-box.info  { background: rgba(79,142,247,0.08); border-color: var(--accent); }
+    .info-box.warn  { background: rgba(240,165,0,0.08);  border-color: var(--warn); }
+    .info-box.ok    { background: rgba(56,201,110,0.08); border-color: var(--accent2); }
+    .info-box strong { display: block; margin-bottom: 4px; }
+
+    /* ─── STEPS ─── */
+    .steps { counter-reset: step; list-style: none; margin: 16px 0; }
+    .steps li {
+      counter-increment: step;
+      display: flex;
+      gap: 16px;
+      margin-bottom: 16px;
+      align-items: flex-start;
+    }
+    .steps li::before {
+      content: counter(step);
+      background: var(--accent);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      min-width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 2px;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      margin-top: 80px;
+      padding: 28px 0;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+
+    /* ─── MERMAID OVERRIDE ─── */
+    .mermaid { background: transparent !important; }
+
+    /* ─── SCROLLBAR ─── */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    @media (max-width: 900px) {
+      nav { display: none; }
+      main { margin-left: 0; padding: 24px 20px; }
+      .tol-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════
+     SIDEBAR
+═══════════════════════════════════════ -->
+<nav>
+  <div class="logo">
+    <span>Proyecto</span>
+    <strong>Scan-to-BIM Industrial</strong>
+  </div>
+
+  <div class="nav-section">Introducción</div>
+  <a href="#que-es">¿Qué es un script de producción?</a>
+  <a href="#arquitectura">Arquitectura general</a>
+
+  <div class="nav-section">Fases del flujo</div>
+  <a href="#fase1">FASE 1 — Ingesta IA</a>
+  <a href="#fase2">FASE 2 — Importación Revit</a>
+  <a href="#fase3">FASE 3 — Auditoría QC</a>
+  <a href="#fase4">FASE 4 — Desviaciones</a>
+
+  <div class="nav-section">Planificación</div>
+  <a href="#gantt">Diagrama de Gantt</a>
+  <a href="#datos">Mapa de datos</a>
+
+  <div class="nav-section">Servicios y Setup</div>
+  <a href="#servicios">Servicios externos</a>
+  <a href="#setup">Guía de instalación</a>
+  <a href="#scripts">Scripts disponibles</a>
+  <a href="#tolerancias">Tolerancias</a>
+  <a href="#comandos">Comandos del harness</a>
+</nav>
+
+<!-- ═══════════════════════════════════════
+     MAIN
+═══════════════════════════════════════ -->
+<main>
+
+  <h1>Documentación &amp; Tutorial de Arquitectura</h1>
+  <p class="subtitle">
+    Sistema de Automatización Scan-to-BIM Industrial &nbsp;·&nbsp;
+    Stack: Aurivus AI / EdgeWise → Revit API → pyRevit / C# → CheckToBuild / Verity → IFC 4.3 &nbsp;·&nbsp;
+    v1.0 — Mayo 2026
+  </p>
+
+  <!-- ─────────────────────────────── -->
+  <h2 id="que-es" data-num="01">¿Qué es un script de producción?</h2>
+
+  <p>Un <strong>script de producción</strong> es código listo para ejecutarse con clientes y modelos reales. No es un prototipo ni un experimento — es el artefacto que automatiza trabajo en producción y del que depende la calidad del entregable.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Característica</th><th>Script de prueba</th><th>Script de producción</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Manejo de errores</td><td>Mínimo o ninguno</td><td><code>try/except</code> + <code>RollBack</code> siempre</td></tr>
+        <tr><td>Transacciones Revit</td><td>Puede omitirse</td><td>Obligatorio con cierre correcto</td></tr>
+        <tr><td>Rendimiento</td><td>No importa</td><td>Optimizado para &gt;500 elementos</td></tr>
+        <tr><td>Logs</td><td><code>print()</code></td><td><code>output.print_md()</code> o archivo externo</td></tr>
+        <tr><td>UI bloqueante</td><td><code>TaskDialog</code> libre</td><td>Cero ventanas modales en flujo principal</td></tr>
+        <tr><td>Validaciones</td><td>Pocas</td><td>Verifica parámetros antes de escribir</td></tr>
+        <tr><td>Colecciones masivas</td><td>Iteración directa</td><td><code>FilteredElementCollector</code> con filtros nativos</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="info-box ok">
+    <strong>Regla de oro</strong>
+    Toda escritura en el modelo Revit usa <code>Transaction</code> con <code>try/except</code> y <code>RollBack</code> en caso de fallo. Sin excepciones. Un script que corrompe el modelo en producción puede costar horas de trabajo del equipo.
+  </div>
+
+  <!-- ─────────────────────────────── -->
+  <h2 id="arquitectura" data-num="02">Arquitectura general del sistema</h2>
+
+  <p>El sistema conecta 4 fases con herramientas especializadas. La nube de puntos bruta entra por un extremo; el gemelo digital certificado en IFC 4.3 sale por el otro.</p>
+
+  <div class="diagram-wrap">
+    <div class="mermaid">
+flowchart TD
+    A["🏭 Planta Industrial\nEscaneo Láser 3D"] --> B["Nube de Puntos\n.E57 / .LAS / .RCP"]
+
+    B --> C{"FASE 1\nSegmentación IA"}
+
+    C --> D["Aurivus AI\nNube completa"]
+    C --> E["ClearEdge3D EdgeWise\nTuberías MEP / HVAC"]
+
+    D --> F["Geometría clasificada\nFamilias Revit / IFC"]
+    E --> F
+
+    F --> G{"FASE 2\nImportación Revit"}
+    B --> G
+
+    G --> H["Revit + pyRevit\nScript inserción orientada"]
+
+    H --> I["Modelo BIM\ncon nube vinculada"]
+
+    I --> J{"FASE 3\nAuditoría QC"}
+
+    J --> K["Script auditoría\nDuplicados / Parámetros"]
+    K --> L{"¿Pasa QC?"}
+    L -- No --> M["Reporte errores\nCorrecciones manuales"]
+    M --> J
+    L -- Sí --> N["Modelo certificado\nOmniclass / Uniclass"]
+
+    N --> O{"FASE 4\nControl Desviaciones"}
+
+    O --> P["CheckToBuild / Verity\nScan-vs-BIM"]
+    P --> Q{"¿Desviación\n< tolerancia?"}
+    Q -- No --> R["Ajuste modelo\nZonas fuera tolerancia"]
+    R --> O
+    Q -- Sí --> S["IFC 4.3\nCertificado"]
+
+    S --> T["📦 Entrega Cliente\nGemelo Digital"]
+
+    style A fill:#1a1d2e,color:#e8eaf0,stroke:#4f8ef7
+    style T fill:#1a3d2e,color:#e8eaf0,stroke:#38c96e
+    style L fill:#3d2e1a,color:#e8eaf0,stroke:#f0a500
+    style Q fill:#3d2e1a,color:#e8eaf0,stroke:#f0a500
+    </div>
+    <p class="diagram-label">Figura 1 — Flujo end-to-end del sistema Scan-to-BIM</p>
+  </div>
+
+  <!-- ─────────────────────────────── -->
+  <h2 id="fase1" data-num="03">FASE 1 — Ingesta de Datos y Segmentación IA</h2>
+
+  <div class="phase-banner">
+    <div class="phase-num">01</div>
+    <div>
+      <div class="phase-title">Ingesta de Datos y Segmentación IA</div>
+      <div class="phase-desc">Escaneo láser → clasificación automática por IA → geometría pre-modelada lista para Revit</div>
+    </div>
+  </div>
+
+  <p>El escaneo láser produce nubes de puntos masivas sin significado semántico. Las herramientas de IA de esta fase <strong>clasifican automáticamente</strong> cada punto: muros, suelos, vigas de acero, tuberías MEP, conductos HVAC. El resultado ya no es una nube ciega — es geometría que sabe lo que representa.</p>
+
+  <div class="diagram-wrap">
+    <div class="mermaid">
+sequenceDiagram
+    participant T as Técnico de Campo
+    participant S as Escáner Láser
+    participant C as Software de Captura
+    participant AU as Aurivus AI (Cloud)
+    participant EW as EdgeWise (Local)
+    participant R as Revit
+
+    T->>S: Configura escáner (resolución, targets)
+    S->>C: Captura nube de puntos
+    C->>C: Registra y alinea escaneos
+    C->>AU: Upload .E57 / .LAS
+    Note over AU: Red neuronal clasifica:<br/>Muros, Suelos, Vigas,<br/>Tuberías, Conductos HVAC
+    AU->>R: Exporta geometría clasificada
+    C->>EW: Import .E57 para MEP
+    Note over EW: Detección automática<br/>de tuberías y conductos
+    EW->>R: Familias nativas Revit (pipes/ducts)
+    R->>R: Modelo preliminar listo
+    </div>
+    <p class="diagram-label">Figura 2 — Secuencia de ingesta y segmentación IA</p>
+  </div>
+
+  <h3>Salidas esperadas de FASE 1</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Herramienta</th><th>Formato salida</th><th>Contenido</th></tr></thead>
+      <tbody>
+        <tr><td>Aurivus AI</td><td><code>.rvt</code> parcial / <code>.json</code> / <code>.ifc</code></td><td>Geometría estructural clasificada</td></tr>
+        <tr><td>EdgeWise</td><td>Familias Revit nativas</td><td>Pipes, Ducts, Fittings detectados</td></tr>
+        <tr><td>Software captura</td><td><code>.rcp</code></td><td>Nube registrada lista para Revit</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ─────────────────────────────── -->
+  <h2 id="fase2" data-num="04">FASE 2 — Importación y Enlazado Automatizado en Revit</h2>
+
+  <div class="phase-banner">
+    <div class="phase-num">02</div>
+    <div>
+      <div class="phase-title">Importación y Enlazado Automatizado</div>
+      <div class="phase-desc">Scripts pyRevit insertan la nube orientada y cargan el modelo IA con coordenadas compartidas correctas</div>
+    </div>
+  </div>
+
+  <p>El problema más frecuente al importar nubes de puntos en Revit es la <strong>desorientación del origen</strong>: si la nube no se alinea al Survey Point del proyecto, todo el modelo queda desplazado metros o kilómetros del sitio real. Esta fase lo automatiza.</p>
+
+  <div class="diagram-wrap">
+    <div class="mermaid">
+sequenceDiagram
+    participant U as Usuario BIM
+    participant PY as Script pyRevit
+    participant RV as Revit Document
+    participant PC as Nube de Puntos (.rcp)
+    participant AI as Modelo IA (.rvt)
+
+    U->>PY: Ejecuta script desde panel pyRevit
+    PY->>RV: Abre Transaction("Insertar_Nube")
+    PY->>PC: Lee coordenadas de survey point
+    PY->>RV: PointCloudInstance.Create() con transform orientado
+    PY->>RV: Transaction.Commit()
+    PY->>RV: Abre Transaction("Cargar_Modelo_IA")
+    PY->>AI: Verifica ruta y versión del archivo
+    PY->>RV: RevitLinkInstance.Create()
+    PY->>RV: Aplica coordenadas compartidas
+    PY->>RV: Transaction.Commit()
+    RV->>U: Modelo + nube alineados
+    PY->>U: output.print_md("Inserción completada")
+    </div>
+    <p class="diagram-label">Figura 3 — Secuencia de importación orientada en Revit</p>
+  </div>
+
+  <div class="info-box warn">
+    <strong>Parámetros críticos de alineación</strong>
+    Survey Point del proyecto → origen de la nube (.rcp) &nbsp;|&nbsp;
+    Project Base Point → referencia del modelo IA &nbsp;|&nbsp;
+    Shared Coordinates → sincronizadas entre nube y modelo
+  </div>
+
+  <!-- ─────────────────────────────── -->
+  <h2 id="fase3" data-num="05">FASE 3 — Auditoría QC y Control de Parámetros</h2>
+
+  <div class="phase-banner">
+    <div class="phase-num">03</div>
+    <div>
+      <div class="phase-title">Auditoría de Datos, Parámetros y QC</div>
+      <div class="phase-desc">Escritura masiva de parámetros, detección de duplicados, validación de topología MEP y codificación Omniclass/Uniclass</div>
+    </div>
+  </div>
+
+  <p>Esta es la fase más crítica de automatización. Un modelo industrial puede tener miles de tuberías generadas por la IA con parámetros incompletos o elementos duplicados. El script de producción <strong>audita el modelo entero en segundos</strong> y escribe el estado de validación en cada elemento.</p>
+
+  <div class="diagram-wrap">
+    <div class="mermaid">
+flowchart TD
+    START(["Inicio auditoría"]) --> COL["FilteredElementCollector\nPipes + Ducts + estructural"]
+    COL --> DUP{"¿Duplicados\ndetectados?"}
+    DUP -- Sí --> MARK["Marcar con\nEstado_QC = DUPLICADO"]
+    DUP -- No --> PARAM
+    MARK --> REPORT1["Log duplicados .csv"]
+    REPORT1 --> PARAM
+
+    PARAM["Verificar parámetros\nobligatorios por elemento"] --> CHECK{"¿Todos\ncompletos?"}
+    CHECK -- No --> WRITE1["Escribir\nEstado_Revision_IA = Pendiente"]
+    CHECK -- Sí --> TOPO
+    WRITE1 --> REPORT2["Log parámetros faltantes"]
+    REPORT2 --> TOPO
+
+    TOPO["Validar topología MEP\nconexiones en ambos extremos"] --> CONN{"¿Bien\nconectado?"}
+    CONN -- No --> WRITE2["Estado_Revision_IA =\nPendiente de Validar Humana"]
+    CONN -- Sí --> WRITE3["Estado_Revision_IA =\nValidado Automático"]
+
+    WRITE2 --> CODE
+    WRITE3 --> CODE
+
+    CODE["Escribir codificación\nOmniclass / Uniclass"] --> END(["Reporte QC final\nentregado"])
+
+    style START fill:#1a1d2e,stroke:#4f8ef7,color:#e8eaf0
+    style END fill:#1a3d2e,stroke:#38c96e,color:#e8eaf0
+    style DUP fill:#3d2e1a,stroke:#f0a500,color:#e8eaf0
+    style CHECK fill:#3d2e1a,stroke:#f0a500,color:#e8eaf0
+    style CONN fill:#3d2e1a,stroke:#f0a500,color:#e8eaf0
+    </div>
+    <p class="diagram-label">Figura 4 — Flujo de auditoría QC automatizada</p>
+  </div>
+
+  <h3>Parámetros compartidos obligatorios</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Parámetro</th><th>Tipo</th><th>Valores posibles</th><th>Aplicado a</th></tr></thead>
+      <tbody>
+        <tr><td><code>Estado_Revision_IA</code></td><td>Text</td><td>Pendiente de Validar Humana / Validado Automático</td><td>Pipes, Ducts</td></tr>
+        <tr><td><code>Codigo_Omniclass</code></td><td>Text</td><td>p.ej. <code>23-13 11 00</code></td><td>Todos sistemas MEP</td></tr>
+        <tr><td><code>Codigo_Uniclass</code></td><td>Text</td><td>p.ej. <code>Ss_65_30_95</code></td><td>Todos sistemas MEP</td></tr>
+        <tr><td><code>Fuente_IA</code></td><td>Text</td><td>Aurivus / EdgeWise / Manual</td><td>Todos los elementos</td></tr>
+        <tr><td><code>Desviacion_Scan_mm</code></td><td>Number</td><td>valor real en mm</td><td>Post-FASE 4</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ─────────────────────────────── -->
+  <h2 id="fase4" data-num="06">FASE 4 — Control de Desviaciones Scan-vs-BIM</h2>
+
+  <div class="phase-banner">
+    <div class="phase-num">04</div>
+    <div>
+      <div class="phase-title">Control de Desviaciones y Entrega</div>
+      <div class="phase-desc">CheckToBuild / Verity compara el modelo final con la nube original para certificar precisión milimétrica</div>
+    </div>
+  </div>
+
+  <p>Antes de entregar, hay que demostrar cuantitativamente que el modelo BIM representa la realidad. Cada elemento recibe una <strong>desviación en milímetros</strong>. Si supera la tolerancia, se ajusta. Si no, queda certificado. Esta información viaja al IFC final.</p>
+
+  <div class="diagram-wrap">
+    <div class="mermaid">
+sequenceDiagram
+    participant RV as Modelo Revit
+    participant CB as CheckToBuild / Verity
+    participant SC as Nube de puntos original
+    participant IFC as Exportador IFC 4.3
+
+    RV->>CB: Export modelo para análisis
+    SC->>CB: Carga nube original
+    CB->>CB: Algoritmo comparación punto a punto
+
+    loop Por cada elemento BIM
+        CB->>CB: Calcula desviación en mm
+        alt Desviación menor a tolerancia
+            CB->>RV: Escribe Desviacion_Scan_mm = X.X
+            CB->>RV: Estado = CERTIFICADO
+        else Desviación mayor o igual a tolerancia
+            CB->>RV: Escribe Desviacion_Scan_mm = X.X
+            CB->>RV: Estado = FUERA_DE_TOLERANCIA
+        end
+    end
+
+    RV->>IFC: Exportar con parámetros de desviación
+    IFC->>IFC: Validar schema IFC 4.3
+    IFC-->>Cliente: Gemelo digital certificado
+    </div>
+    <p class="diagram-label">Figura 5 — Secuencia de certificación Scan-vs-BIM</p>
+  </div>
+
+  <!-- ─────────────────────────────── -->
+  <h2 id="gantt" data-num="07">Planificación — Diagrama de Gantt</h2>
+
+  <p>Proyecto tipo para una planta industrial mediana (~5.000 m²). Los tiempos son estimados; varían según complejidad MEP y cantidad de disciplinas.</p>
+
+  <div class="diagram-wrap">
+    <div class="mermaid">
+gantt
+    title Proyecto Scan-to-BIM Industrial — Planta Mediana (~5.000 m²)
+    dateFormat  YYYY-MM-DD
+    axisFormat  %d/%m
+
+    section Captura
+    Planificación escaneo           :done,    cap1, 2026-06-01, 1d
+    Trabajo de campo (escáner)      :done,    cap2, 2026-06-02, 2d
+    Registro y alineación nubes     :done,    cap3, 2026-06-04, 1d
+
+    section FASE 1 — IA Segmentación
+    Upload a Aurivus AI             :active,  f1a, 2026-06-05, 1d
+    Procesamiento IA cloud          :         f1b, 2026-06-05, 2d
+    EdgeWise detección MEP          :         f1c, 2026-06-06, 1d
+    Revisión y ajuste outputs IA    :         f1d, 2026-06-07, 1d
+
+    section FASE 2 — Importación Revit
+    Configurar coordenadas proyecto :         f2a, 2026-06-08, 1d
+    Script inserción nube orientada :         f2b, 2026-06-08, 1d
+    Carga modelo IA en Revit        :         f2c, 2026-06-09, 1d
+    Verificación alineación visual  :         f2d, 2026-06-09, 1d
+
+    section FASE 3 — Modelado y QC
+    Modelado manual zonas complejas :         f3a, 2026-06-10, 5d
+    Script auditoría QC automática  :         f3b, 2026-06-10, 1d
+    Corrección elementos pendientes :         f3c, 2026-06-11, 3d
+    Codificación Omniclass/Uniclass :         f3d, 2026-06-15, 1d
+    Re-auditoría final              :         f3e, 2026-06-16, 1d
+
+    section FASE 4 — Certificación
+    Análisis CheckToBuild/Verity    :         f4a, 2026-06-17, 1d
+    Ajuste zonas fuera tolerancia   :         f4b, 2026-06-18, 1d
+    Exportación IFC 4.3             :         f4c, 2026-06-19, 1d
+    Validación schema IFC           :         f4d, 2026-06-19, 1d
+
+    section Entrega
+    Entrega al cliente              :milestone, del, 2026-06-20, 0d
+    Soporte post-entrega            :         sop, 2026-06-20, 5d
+    </div>
+    <p class="diagram-label">Figura 6 — Gantt de proyecto tipo (20 días laborables)</p>
+  </div>
+
+  <!-- ─────────────────────────────── -->
+  <h2 id="datos" data-num="08">Mapa de datos — Qué viaja entre sistemas</h2>
+
+  <div class="diagram-wrap">
+    <div class="mermaid">
+flowchart LR
+    subgraph INPUT["Entrada"]
+        A1[".E57 / .LAS\nNube bruta"]
+        A2["Planos 2D\nAs-built legacy"]
+    end
+
+    subgraph IA_PROC["Procesamiento IA"]
+        B1["Aurivus AI\nGeometría"]
+        B2["EdgeWise\nMEP"]
+    end
+
+    subgraph REVIT["Revit Model"]
+        C1["Nube vinculada\n.rcp"]
+        C2["Elementos BIM\nPipes/Ducts/Structure"]
+        C3["Parámetros\nEstado_Revision_IA\nCodigo_Omniclass\nDesviacion_Scan_mm"]
+    end
+
+    subgraph QC["QC / Certificación"]
+        D1["Reporte duplicados\n.csv"]
+        D2["Heatmap desviaciones\n.pdf"]
+        D3["Log parámetros\n.txt"]
+    end
+
+    subgraph OUTPUT["Entrega"]
+        E1["IFC 4.3\nEntrega final"]
+        E2["Modelo Revit\ncertificado"]
+    end
+
+    A1 --> B1
+    A1 --> B2
+    A1 --> C1
+    A2 --> B1
+    B1 --> C2
+    B2 --> C2
+    C2 --> C3
+    C3 --> D1
+    C3 --> D3
+    C1 --> D2
+    C2 --> D2
+    D2 --> C3
+    C2 --> E1
+    C3 --> E1
+    C2 --> E2
+    </div>
+    <p class="diagram-label">Figura 7 — Mapa de flujo de datos entre sistemas</p>
+  </div>
+
+  <!-- ─────────────────────────────── -->
+  <h2 id="servicios" data-num="09">Catálogo de servicios externos</h2>
+
+  <div class="cards">
+
+    <div class="card">
+      <div class="card-tag">Cloud SaaS</div>
+      <div class="card-title">Aurivus AI</div>
+      <div class="card-sub">aurivus.com</div>
+      <p>Segmentación automática de nubes de puntos mediante redes neuronales. Detecta geometría estructural y MEP. Exporta familias Revit y IFC directamente.</p>
+      <br/>
+      <div class="table-wrap" style="margin:0">
+        <table>
+          <tr><td><strong>Inputs</strong></td><td><code>.E57</code> <code>.LAS</code> <code>.LAZ</code> <code>.PLY</code></td></tr>
+          <tr><td><strong>Outputs</strong></td><td><code>.rvt</code> parcial, <code>.ifc</code>, <code>.json</code></td></tr>
+          <tr><td><strong>Integración</strong></td><td>API REST + export Revit</td></tr>
+          <tr><td><strong>Cuándo</strong></td><td>Proyectos con mucha geometría mixta</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-tag">Desktop App</div>
+      <div class="card-title">ClearEdge3D EdgeWise</div>
+      <div class="card-sub">clearedge3d.com</div>
+      <p>Especialista en detección de tuberías, conductos y geometría MEP industrial. Alta precisión en refinerías y plantas químicas.</p>
+      <br/>
+      <div class="table-wrap" style="margin:0">
+        <table>
+          <tr><td><strong>Inputs</strong></td><td><code>.E57</code> <code>.RCP</code> <code>.PTS</code></td></tr>
+          <tr><td><strong>Outputs</strong></td><td>Familias Revit nativas (Pipe/Duct/Fitting)</td></tr>
+          <tr><td><strong>Integración</strong></td><td>Plugin Revit + export directo</td></tr>
+          <tr><td><strong>Cuándo</strong></td><td>Proyectos MEP-intensivos industriales</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-tag">Cloud / Plugin</div>
+      <div class="card-title">CheckToBuild</div>
+      <div class="card-sub">checktobuild.com</div>
+      <p>Comparación automática modelo BIM vs. realidad construida. Genera reportes de desviaciones por elemento y heatmaps de precisión.</p>
+      <br/>
+      <div class="table-wrap" style="margin:0">
+        <table>
+          <tr><td><strong>Inputs</strong></td><td>Revit / IFC + nube de puntos</td></tr>
+          <tr><td><strong>Outputs</strong></td><td>Desviaciones por elemento, heatmaps, parámetros escritos</td></tr>
+          <tr><td><strong>Tolerancias</strong></td><td>Configurables por disciplina</td></tr>
+          <tr><td><strong>Cuándo</strong></td><td>Certificación de precisión pre-entrega</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-tag">Plugin Revit</div>
+      <div class="card-title">Verity (Autodesk)</div>
+      <div class="card-sub">autodesk.com</div>
+      <p>Control de calidad Scan-vs-BIM nativo dentro de Revit. Incluido en algunos planes AEC Collection. Sin necesidad de exportar a servicios externos.</p>
+      <br/>
+      <div class="table-wrap" style="margin:0">
+        <table>
+          <tr><td><strong>Inputs</strong></td><td>Nube vinculada al proyecto Revit</td></tr>
+          <tr><td><strong>Outputs</strong></td><td>Dashboard desviaciones, parámetros por elemento</td></tr>
+          <tr><td><strong>Ventaja</strong></td><td>Nativo en Revit, sin exportar</td></tr>
+          <tr><td><strong>Cuándo</strong></td><td>Clientes con AEC Collection activa</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-tag">Open Source · Gratis</div>
+      <div class="card-title">pyRevit</div>
+      <div class="card-sub">pyrevitlabs.io</div>
+      <p>Framework para ejecutar scripts Python dentro de Revit. Crea paneles personalizados en la cinta. Base de todos los scripts de FASE 2, 3 y 4.</p>
+      <br/>
+      <div class="table-wrap" style="margin:0">
+        <table>
+          <tr><td><strong>Lenguaje</strong></td><td>Python (IronPython 2.7 / CPython 3)</td></tr>
+          <tr><td><strong>Instalación</strong></td><td>pyrevitlabs.io/download</td></tr>
+          <tr><td><strong>Integración</strong></td><td>Carpeta de scripts → panel automático en Revit</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-tag">Incluido con Revit</div>
+      <div class="card-title">Revit API — C# SDK</div>
+      <div class="card-sub">autodesk.com/developer</div>
+      <p>Automatización de alta performance via addins compilados (.dll). Mayor rendimiento que pyRevit para operaciones masivas con miles de elementos.</p>
+      <br/>
+      <div class="table-wrap" style="margin:0">
+        <table>
+          <tr><td><strong>Lenguaje</strong></td><td>C# (.NET)</td></tr>
+          <tr><td><strong>Outputs</strong></td><td><code>.dll</code> instalado como External Command</td></tr>
+          <tr><td><strong>Cuándo</strong></td><td>Scripts críticos &gt;5.000 elementos o addins distribuibles</td></tr>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ─────────────────────────────── -->
+  <h2 id="setup" data-num="10">Guía de instalación del entorno</h2>
+
+  <h3>Prerrequisitos</h3>
+  <pre>✅ Autodesk Revit 2024 o 2025
+✅ pyRevit 4.8+       →  pyrevitlabs.io/download
+✅ GitHub CLI (gh)    →  cli.github.com
+✅ Python 3.x         →  para scripts externos de FASE 1
+✅ Cuenta Aurivus AI o licencia EdgeWise
+✅ Acceso CheckToBuild o plugin Verity</pre>
+
+  <h3>Paso a paso</h3>
+  <ol class="steps">
+    <li>
+      <div>
+        <strong>Clonar el repositorio</strong>
+        <pre>git clone https://github.com/SalvadorSimonDev/scan-to-bim-automation.git
+cd scan-to-bim-automation</pre>
+      </div>
+    </li>
+    <li>
+      <div>
+        <strong>Configurar pyRevit</strong><br/>
+        Abre pyRevit Settings desde la cinta de Revit → <strong>Custom Extensions</strong> → añade la ruta a <code>scripts/</code> → recarga pyRevit. Los scripts aparecen automáticamente en el panel.
+      </div>
+    </li>
+    <li>
+      <div>
+        <strong>Crear parámetros compartidos en Revit</strong>
+        <pre>Archivo → Parámetros compartidos → Nuevo archivo
+Grupo: "BIM_Automatizacion"
+Parámetros a crear:
+  - Estado_Revision_IA    (Texto, instancia)
+  - Codigo_Omniclass      (Texto, instancia)
+  - Codigo_Uniclass       (Texto, instancia)
+  - Fuente_IA             (Texto, instancia)
+  - Desviacion_Scan_mm    (Número, instancia)</pre>
+      </div>
+    </li>
+    <li>
+      <div>
+        <strong>Verificar variables de entorno</strong> (ya configuradas en <code>.claude/settings.json</code>)
+        <pre>{
+  "BIM_STACK":      "Revit+pyRevit+Dynamo+CSharp",
+  "BIM_IFC_TARGET": "IFC4.3",
+  "BIM_AI_INGESTA": "Aurivus+EdgeWise",
+  "BIM_QC_TOOL":    "CheckToBuild+Verity"
+}</pre>
+      </div>
+    </li>
+  </ol>
+
+  <!-- ─────────────────────────────── -->
+  <h2 id="scripts" data-num="11">Scripts disponibles — Estado actual</h2>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;">
+    <div class="script-row">
+      <div class="script-file">scripts/fase3_estado_revision_ia.py</div>
+      <div class="script-phase">FASE 3</div>
+      <div class="script-desc">Audita Pipes y Ducts, escribe <code>Estado_Revision_IA</code> según conectividad MEP</div>
+      <span class="badge badge-ok">✅ Producción</span>
+    </div>
+    <div class="script-row">
+      <div class="script-file">scripts/fase2_insertar_nube.py</div>
+      <div class="script-phase">FASE 2</div>
+      <div class="script-desc">Inserción orientada de nube .rcp con coordenadas compartidas</div>
+      <span class="badge badge-pend">🔲 Pendiente</span>
+    </div>
+    <div class="script-row">
+      <div class="script-file">scripts/fase2_cargar_modelo_ia.py</div>
+      <div class="script-phase">FASE 2</div>
+      <div class="script-desc">Carga modelo IA como Revit Link con alineación automática</div>
+      <span class="badge badge-pend">🔲 Pendiente</span>
+    </div>
+    <div class="script-row">
+      <div class="script-file">scripts/fase3_auditoria_duplicados.py</div>
+      <div class="script-phase">FASE 3</div>
+      <div class="script-desc">Detección y marcado de elementos duplicados en el modelo</div>
+      <span class="badge badge-pend">🔲 Pendiente</span>
+    </div>
+    <div class="script-row">
+      <div class="script-file">scripts/fase3_codificacion_omniclass.py</div>
+      <div class="script-phase">FASE 3</div>
+      <div class="script-desc">Escritura masiva Omniclass/Uniclass por categoría MEP</div>
+      <span class="badge badge-pend">🔲 Pendiente</span>
+    </div>
+    <div class="script-row">
+      <div class="script-file">scripts/fase4_desviacion_scan_bim.py</div>
+      <div class="script-phase">FASE 4</div>
+      <div class="script-desc">Lectura de desviaciones desde CheckToBuild y escritura en modelo</div>
+      <span class="badge badge-pend">🔲 Pendiente</span>
+    </div>
+    <div class="script-row">
+      <div class="script-file">scripts/fase4_exportar_ifc.py</div>
+      <div class="script-phase">FASE 4</div>
+      <div class="script-desc">Exportación IFC 4.3 con parámetros certificados</div>
+      <span class="badge badge-pend">🔲 Pendiente</span>
+    </div>
+  </div>
+
+  <!-- ─────────────────────────────── -->
+  <h2 id="tolerancias" data-num="12">Tolerancias de precisión por disciplina</h2>
+
+  <p>Estas tolerancias se configuran en CheckToBuild / Verity y determinan qué elementos reciben <code>Estado = CERTIFICADO</code> vs <code>FUERA_DE_TOLERANCIA</code>.</p>
+
+  <div class="tol-grid">
+    <div class="tol-item">
+      <div class="tol-cat">Estructura</div>
+      <div class="tol-val">±10</div>
+      <div class="tol-unit">mm estándar / ±5mm alta precisión</div>
+    </div>
+    <div class="tol-item">
+      <div class="tol-cat">Tuberías industriales</div>
+      <div class="tol-val">±5</div>
+      <div class="tol-unit">mm estándar / ±3mm alta precisión</div>
+    </div>
+    <div class="tol-item">
+      <div class="tol-cat">Conductos HVAC</div>
+      <div class="tol-val">±10</div>
+      <div class="tol-unit">mm estándar / ±5mm alta precisión</div>
+    </div>
+    <div class="tol-item">
+      <div class="tol-cat">Fachadas / Cerramientos</div>
+      <div class="tol-val">±15</div>
+      <div class="tol-unit">mm estándar / ±8mm alta precisión</div>
+    </div>
+    <div class="tol-item">
+      <div class="tol-cat">Equipos industriales</div>
+      <div class="tol-val">±3</div>
+      <div class="tol-unit">mm estándar / ±1mm alta precisión</div>
+    </div>
+    <div class="tol-item">
+      <div class="tol-cat">Gemelo digital completo</div>
+      <div class="tol-val">±5</div>
+      <div class="tol-unit">mm objetivo global de entrega</div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────────────── -->
+  <h2 id="comandos" data-num="13">Comandos del harness Claude Code</h2>
+
+  <p>Con Claude Code activo en este repositorio, estos comandos generan código de producción directamente:</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Comando</th><th>Acción</th></tr></thead>
+      <tbody>
+        <tr><td><code>/fase1 &lt;tarea&gt;</code></td><td>Script de ingesta de nube de puntos y parseo de outputs IA</td></tr>
+        <tr><td><code>/fase2 &lt;tarea&gt;</code></td><td>Script de importación en Revit con coordenadas compartidas</td></tr>
+        <tr><td><code>/fase3 &lt;tarea&gt;</code></td><td>Script de auditoría QC, parámetros y codificación</td></tr>
+        <tr><td><code>/fase4 &lt;tarea&gt;</code></td><td>Script de desviaciones y exportación IFC 4.3</td></tr>
+        <tr><td><code>/revisar &lt;código&gt;</code></td><td>Auditoría del código contra las reglas del proyecto</td></tr>
+        <tr><td><code>/plantilla-python &lt;desc&gt;</code></td><td>Scaffold mínimo pyRevit con Transaction listo</td></tr>
+        <tr><td><code>/plantilla-csharp &lt;desc&gt;</code></td><td>Scaffold mínimo IExternalCommand C# listo</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <pre># Ejemplos de uso
+/fase3 auditar duplicados en categorías MEP y estructural
+/fase2 insertar nube orientada con coordenadas compartidas del proyecto
+/fase4 exportar IFC 4.3 con parámetros de desviación incluidos
+/plantilla-python "clasificador de sistemas de tuberías por presión"</pre>
+
+  <footer>
+    Documentación generada por Claude Code — Agente Arquitecto BIM Senior &nbsp;·&nbsp;
+    <a href="https://github.com/SalvadorSimonDev/scan-to-bim-automation" target="_blank">
+      github.com/SalvadorSimonDev/scan-to-bim-automation
+    </a>
+  </footer>
+
+</main>
+
+<script>
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'dark',
+    themeVariables: {
+      background:      '#1a1d2e',
+      primaryColor:    '#242740',
+      primaryTextColor:'#e8eaf0',
+      primaryBorderColor: '#4f8ef7',
+      lineColor:       '#4f8ef7',
+      secondaryColor:  '#1a3d2e',
+      tertiaryColor:   '#3d2e1a',
+      edgeLabelBackground: '#1a1d2e',
+      clusterBkg:      '#1a1d2e',
+      titleColor:      '#e8eaf0',
+      nodeBorder:      '#4f8ef7',
+      mainBkg:         '#242740',
+      fontSize:        '14px'
+    },
+    flowchart: { curve: 'basis', padding: 20 },
+    sequence:  { actorMargin: 60, messageMargin: 30 },
+    gantt:     { barHeight: 22, barGap: 6, topPadding: 50, fontSize: 13 }
+  });
+
+  // Active nav highlight on scroll
+  const sections = document.querySelectorAll('h2[id]');
+  const navLinks  = document.querySelectorAll('nav a');
+  const observer  = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(a => a.classList.remove('active'));
+        const link = document.querySelector(`nav a[href="#${e.target.id}"]`);
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
