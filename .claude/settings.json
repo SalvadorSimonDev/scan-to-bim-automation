@@ -1,0 +1,55 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python *)",
+      "Bash(py *)",
+      "Bash(pip *)",
+      "Bash(pip3 *)",
+      "Bash(git *)",
+      "Read(*)",
+      "Write(*.py)",
+      "Write(*.cs)",
+      "Write(*.dyn)",
+      "Write(*.json)",
+      "Write(*.md)",
+      "Write(*.txt)",
+      "Write(*.log)",
+      "Edit(*)"
+    ],
+    "deny": []
+  },
+
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/pre-write.sh"
+          }
+        ]
+      }
+    ],
+
+    "PostToolUse": [
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/post-write.sh"
+          }
+        ]
+      }
+    ]
+  },
+
+  "env": {
+    "BIM_STACK": "Revit+pyRevit+Dynamo+CSharp",
+    "BIM_IFC_TARGET": "IFC4.3",
+    "BIM_AI_INGESTA": "Aurivus+EdgeWise",
+    "BIM_QC_TOOL": "CheckToBuild+Verity",
+    "BIM_REVIT_API_NS": "Autodesk.Revit.DB"
+  }
+}
